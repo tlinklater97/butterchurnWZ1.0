@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Butterchurn Visualizer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Butterchurn Visualizer</h1>
+
+  <div id="controls">
+    <input type="file" id="audioFile" accept="audio/*">
+    <select id="presetSelect"></select>
+    <button id="playBtn">Play</button>
+    <button id="pauseBtn">Pause</button>
+  </div>
+
+  <canvas id="visualizer"></canvas>
+
+  <script src="https://unpkg.com/butterchurn/lib/butterchurn.min.js"></script>
+  <script src="https://unpkg.com/butterchurn-presets/lib/butterchurnPresets.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
