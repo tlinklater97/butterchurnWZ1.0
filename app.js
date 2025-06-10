@@ -17,16 +17,34 @@ viz.connectAudio(audioCtx.createGain()); // connect dummy gain for now
 viz.connectAudio(audioCtx.destination);
 viz.render();
 
-// Load presets
-const allPresets = butterchurnPresets.getPresets();
-const presetNames = Object.keys(allPresets);
+// Attempt to load presets with fallback
+let allPresets = {};
+if (butterchurnPresets.getPresets) {
+  allPresets = butterchurnPresets.getPresets();
+}
+if (!allPresets || Object.keys(allPresets).length === 0) {
+  console.warn('butterchurnPresets.getPresets() returned empty, using fallback presets');
+  allPresets = {
+    "Rainbow": butterchurnPresets.presets["Rainbow"],
+    "Spiral": butterchurnPresets.presets["Spiral"]
+  };
+}
 
+console.log("Loaded presets:", allPresets);
+
+const presetNames = Object.keys(allPresets);
 presetNames.forEach(name => {
   const option = document.createElement('option');
   option.value = name;
   option.text = name;
   presetSelect.appendChild(option);
 });
+
+// Load first preset by default
+if (presetNames.length > 0) {
+  presetSelect.value = presetNames[0];
+  viz.loadPreset(allPresets[presetNames[0]], 2.0);
+}
 
 presetSelect.addEventListener('change', () => {
   const name = presetSelect.value;
