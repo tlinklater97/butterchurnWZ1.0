@@ -1,5 +1,5 @@
 import butterchurn from 'https://cdn.jsdelivr.net/npm/butterchurn@3.0.5/lib/butterchurn.min.js';
-import butterchurnPresets from 'https://cdn.jsdelivr.net/npm/butterchurn-presets@3.0.5/lib/butterchurnPresets.min.js';
+import butterchurnPresets from 'https://unpkg.com/butterchurn-presets@3.0.5/lib/butterchurnPresets.min.js';
 
 const canvas = document.getElementById('visualizer');
 const audioFile = document.getElementById('audioFile');
@@ -66,36 +66,4 @@ audioFile.addEventListener('change', async (e) => {
     sourceNode.disconnect();
   }
 
-  sourceNode = audioCtx.createBufferSource();
-  sourceNode.buffer = audioBuffer;
-  sourceNode.connect(audioCtx.destination);
-  viz.connectAudio(sourceNode);
-
-  sourceNode.onended = () => { isPlaying = false; };
-
-  sourceNode.start();
-  isPlaying = true;
-});
-
-playBtn.addEventListener('click', () => {
-  if (!audioBuffer || isPlaying) return;
-
-  sourceNode = audioCtx.createBufferSource();
-  sourceNode.buffer = audioBuffer;
-  sourceNode.connect(audioCtx.destination);
-  viz.connectAudio(sourceNode);
-
-  sourceNode.onended = () => { isPlaying = false; };
-
-  sourceNode.start();
-  isPlaying = true;
-});
-
-pauseBtn.addEventListener('click', () => {
-  if (sourceNode && isPlaying) {
-    try {
-      sourceNode.stop();
-    } catch {}
-    isPlaying = false;
-  }
-});
+  sourceN
