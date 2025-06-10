@@ -1,24 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Butterchurn Visualizer</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Butterchurn Visualizer Web App</title>
+  <style>
+    body, html {
+      margin: 0; padding: 0; height: 100%;
+      background: black; color: white;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+    #topBar {
+      position: fixed; top: 0; left: 0; right: 0;
+      background: #111; padding: 10px;
+      display: flex; align-items: center; gap: 10px;
+      z-index: 1000;
+    }
+    #visualizer {
+      position: absolute; top: 50px; left: 0; right: 0; bottom: 0;
+      width: 100%; height: calc(100% - 50px);
+      display: block;
+    }
+  </style>
 </head>
 <body>
-  <h1>Butterchurn Visualizer</h1>
-
-  <div id="controls">
-    <input type="file" id="audioFile" accept="audio/*">
-    <select id="presetSelect"></select>
+  <div id="topBar">
+    <label for="audioFile" style="cursor:pointer;">Import Audio</label>
+    <input type="file" id="audioFile" accept="audio/*" />
+    <select id="presetSelect" aria-label="Select Visualizer Preset"></select>
     <button id="playBtn">Play</button>
     <button id="pauseBtn">Pause</button>
   </div>
 
   <canvas id="visualizer"></canvas>
 
-  <script src="https://unpkg.com/butterchurn/lib/butterchurn.min.js"></script>
-  <script src="https://unpkg.com/butterchurn-presets/lib/butterchurnPresets.min.js"></script>
-  <script src="app.js"></script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>
