@@ -13,24 +13,37 @@ viz = butterchurn.createVisualizer(audioCtx, canvas, {
   width: window.innerWidth,
   height: window.innerHeight - 60
 });
-viz.connectAudio(audioCtx.createGain()); // connect dummy gain for now
+viz.connectAudio(audioCtx.createGain());
 viz.connectAudio(audioCtx.destination);
 viz.render();
 
-// Attempt to load presets with fallback
-let allPresets = {};
-if (butterchurnPresets.getPresets) {
-  allPresets = butterchurnPresets.getPresets();
-}
-if (!allPresets || Object.keys(allPresets).length === 0) {
-  console.warn('butterchurnPresets.getPresets() returned empty, using fallback presets');
-  allPresets = {
-    "Rainbow": butterchurnPresets.presets["Rainbow"],
-    "Spiral": butterchurnPresets.presets["Spiral"]
-  };
-}
+console.log("butterchurnPresets object:", butterchurnPresets);
 
-console.log("Loaded presets:", allPresets);
+// Hardcode one preset to test dropdown population
+const allPresets = {
+  "Rainbow": {
+    "fRating": 3.5,
+    "fGammaAdj": 1,
+    "fDecay": 0.9,
+    "fVideoEchoZoom": 1,
+    "fVideoEchoAlpha": 0.5,
+    "nVideoEchoOrientation": 0,
+    "fShader": 0,
+    "zoom": 1,
+    "rot": 0,
+    "cx": 0.5,
+    "cy": 0.5,
+    "dx": 0,
+    "dy": 0,
+    "warp": 0,
+    "sx": 1,
+    "sy": 1,
+    "cx": 0.5,
+    "cy": 0.5,
+    "shader": 0
+    // (Minimal example - you can add full preset data later)
+  }
+};
 
 const presetNames = Object.keys(allPresets);
 presetNames.forEach(name => {
@@ -40,11 +53,8 @@ presetNames.forEach(name => {
   presetSelect.appendChild(option);
 });
 
-// Load first preset by default
-if (presetNames.length > 0) {
-  presetSelect.value = presetNames[0];
-  viz.loadPreset(allPresets[presetNames[0]], 2.0);
-}
+presetSelect.value = presetNames[0];
+viz.loadPreset(allPresets[presetNames[0]], 2.0);
 
 presetSelect.addEventListener('change', () => {
   const name = presetSelect.value;
@@ -55,7 +65,6 @@ window.addEventListener('resize', () => {
   viz.setRendererSize(window.innerWidth, window.innerHeight - 60);
 });
 
-// Handle file upload
 audioFile.addEventListener('change', async (e) => {
   const file = e.target.files[0];
   if (!file) return;
@@ -76,7 +85,6 @@ audioFile.addEventListener('change', async (e) => {
   isPlaying = true;
 });
 
-// Play / Pause controls
 playBtn.addEventListener('click', () => {
   if (!audioBuffer || isPlaying) return;
   sourceNode = audioCtx.createBufferSource();
